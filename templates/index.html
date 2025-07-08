@@ -1,0 +1,70 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Finetuned Educational LLM</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #d32f2f;
+    }
+    input[type="text"] {
+      width: 300px;
+      padding: 0.5rem;
+      margin-right: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    label {
+      display: inline-block;
+      margin-left: 1rem;
+    }
+    #response {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Education GPT</h1>
+  
+  <input id="prompt" type="text" placeholder="Ask a question..." />
+  
+  <label>
+    <input type="checkbox" id="eduMode" />
+    Education Mode
+  </label>
+
+  <button onclick="sendPrompt()">Ask</button>
+
+  <p id="response"></p>
+
+  <script>
+    async function sendPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const education_mode = document.getElementById("eduMode").checked;
+
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, education_mode }),
+      });
+      const data = await res.json();
+      document.getElementById("response").innerText = data.response;
+    }
+  </script>
+</body>
+</html>
